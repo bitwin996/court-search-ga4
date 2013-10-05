@@ -1,8 +1,14 @@
 # Generated on 2013-10-05 using generator-angular 0.4.0
+#
+# Apply revisions of:
+#   http://newtriks.com/2013/06/11/automating-angularjs-with-yeoman-grunt-and-bower/
+
 "use strict"
 
 LIVERELOAD_PORT = 35729
+
 lrSnippet = require("connect-livereload")(port: LIVERELOAD_PORT)
+
 mountFolder = (connect, dir) ->
   connect.static require("path").resolve(dir)
 
@@ -23,12 +29,22 @@ module.exports = (grunt) ->
 
   try
     yeomanConfig.app = require("./bower.json").appPath or yeomanConfig.app
+
   grunt.initConfig
     yeoman: yeomanConfig
+
     watch:
       coffee:
         files: ["<%= yeoman.app %>/scripts/{,*/}*.coffee"]
         tasks: ["coffee:dist"]
+
+      jade:
+        files: ["<%= yeoman.app %>/{,*/}*.jade"]
+        tasks: ["jade:dist"]
+
+      stylus:
+        files: ["<%= yeoman.app %>/{,*/}*.styl"]
+        tasks: ["stylus:dist"]
 
       coffeeTest:
         files: ["test/spec/{,*/}*.coffee"]
@@ -44,6 +60,7 @@ module.exports = (grunt) ->
 
         files: [
           "<%= yeoman.app %>/{,*/}*.html"
+          #"{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css"
           ".tmp/styles/{,*/}*.css"
           "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js"
           "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
@@ -68,22 +85,35 @@ module.exports = (grunt) ->
 
       livereload:
         options:
-          middleware: (connect) ->
-            [lrSnippet, mountFolder(connect, ".tmp"), mountFolder(connect, yeomanConfig.app)]
+          middleware: (connect) -> [
+            lrSnippet
+            mountFolder connect, ".tmp"
+            mountFolder connect, yeomanConfig.app
+
+            # for CORS
+            (request, response, next) ->
+              response.setHeader 'Access-Control-Allow-Origin', '*'
+              response.setHeader 'Access-Control-Allow-Methods', '*'
+              next()
+          ]
 
       test:
         options:
-          middleware: (connect) ->
-            [mountFolder(connect, ".tmp"), mountFolder(connect, "test")]
+          middleware: (connect) -> [
+            mountFolder connect, ".tmp"
+            mountFolder connect, "test"
+          ]
 
       dist:
         options:
-          middleware: (connect) ->
-            [mountFolder(connect, yeomanConfig.dist)]
+          middleware: (connect) -> [
+            mountFolder connect, yeomanConfig.dist
+          ]
 
     open:
       server:
         url: "http://localhost:<%= connect.options.port %>"
+        app: "/usr/share/iron/iron"
 
     clean:
       dist:
@@ -130,6 +160,25 @@ module.exports = (grunt) ->
           ext: ".js"
         ]
 
+    jade:
+      dist:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.app %>"
+          src: "{,*/}*.jade"
+          dest: ".tmp"
+          ext: ".html"
+        ]
+
+    stylus:
+      dist:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.app %>/styles"
+          src: "{,*/}*.styl"
+          dest: ".tmp/styles"
+          ext: ".css"
+        ]
     
     # not used since Uglify task does concat,
     # but still available if needed
@@ -241,10 +290,21 @@ module.exports = (grunt) ->
         src: "{,*/}*.css"
 
     concurrent:
-      server: ["coffee:dist", "copy:styles"]
-      test: ["coffee", "copy:styles"]
+      server: [
+        "coffee:dist"
+        "jade:dist"
+        "stylus:dist"
+        "copy:styles"
+      ]
+      test: [
+        "coffee"
+        "jade"  # "jade:dist"
+        "copy:styles"
+      ]
       dist: [
         "coffee"
+        "jade"
+        "stylus"
         "copy:styles"
         "imagemin"
         "svgmin"
@@ -252,9 +312,12 @@ module.exports = (grunt) ->
       ]
 
     karma:
+      e2e:
+        configFile: "karma-e2e.conf.js"
+        singleRun: false
       unit:
         configFile: "karma.conf.js"
-        singleRun: true
+        singleRun: false
 
     cdnify:
       dist:
@@ -292,12 +355,20 @@ module.exports = (grunt) ->
       "watch"
     ]
 
-  grunt.registerTask "test", [
+  grunt.registerTask "test:unit", [
     "clean:server"
     "concurrent:test"
     "autoprefixer"
     "connect:test"
-    "karma"
+    "karma:unit"
+  ]
+
+  grunt.registerTask "test:e2e", [
+    "clean:server"
+    "concurrent:test"
+    "autoprefixer"
+    "connect:test"
+    "karma:e2e"
   ]
 
   grunt.registerTask "build", [
