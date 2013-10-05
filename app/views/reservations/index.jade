@@ -1,0 +1,5 @@
+p This is the views/reservations/index view.
+
+ul(ng-controller="ReservationsCtrl")
+  li(ng-repeat="reservation in reservations")
+    {{reservation.date | date:'MM/dd/yyyy'}}

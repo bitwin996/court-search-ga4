@@ -6,5 +6,8 @@ angular.module('courtSearchApp', [])
       .when '/',
         templateUrl: 'views/main.html'
         controller: 'MainCtrl'
+      .when '/reservations',
+        templateUrl: 'views/reservations/index.html'
+        controller: 'ReservationsCtrl'
       .otherwise
-        redirectTo: '/'
+        redirectTo: '/reservations'

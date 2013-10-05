@@ -39,7 +39,7 @@ module.exports = (grunt) ->
         tasks: ["coffee:dist"]
 
       jade:
-        files: ["<%= yeoman.app %>/{,*/}*.jade"]
+        files: ["<%= yeoman.app %>/{,**/}*.jade"]
         tasks: ["jade:dist"]
 
       stylus:
@@ -99,6 +99,7 @@ module.exports = (grunt) ->
 
       test:
         options:
+          port: 9001
           middleware: (connect) -> [
             mountFolder connect, ".tmp"
             mountFolder connect, "test"
@@ -107,7 +108,8 @@ module.exports = (grunt) ->
       dist:
         options:
           middleware: (connect) -> [
-            mountFolder connect, yeomanConfig.dist
+            mountFolder connect
+            yeomanConfig.dist
           ]
 
     open:
@@ -165,7 +167,8 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "<%= yeoman.app %>"
-          src: "{,*/}*.jade"
+          #src: "{,*/}*.jade"
+          src: "{,**/}*.jade"
           dest: ".tmp"
           ext: ".html"
         ]
