@@ -115,7 +115,7 @@ module.exports = (grunt) ->
     open:
       server:
         url: "http://localhost:<%= connect.options.port %>"
-        app: "/usr/share/iron/iron"
+        #app: "/usr/share/iron/iron"
 
     clean:
       dist:
@@ -315,11 +315,14 @@ module.exports = (grunt) ->
       ]
 
     karma:
-      e2e:
-        configFile: "karma-e2e.conf.js"
-        singleRun: false
       unit:
         configFile: "karma.conf.js"
+        singleRun: false
+      midway:
+        configFile: "karma-midway.conf.js"
+        singleRun: false
+      e2e:
+        configFile: "karma-e2e.conf.js"
         singleRun: false
 
     cdnify:
@@ -358,19 +361,33 @@ module.exports = (grunt) ->
       "watch"
     ]
 
-  grunt.registerTask "test:unit", [
+  grunt.registerTask "test:common", [
     "clean:server"
     "concurrent:test"
     "autoprefixer"
     "connect:test"
+  ]
+
+  grunt.registerTask "test:unit", [
+    #"clean:server"
+    #"concurrent:test"
+    #"autoprefixer"
+    #"connect:test"
+    "test:common"
     "karma:unit"
   ]
 
+  grunt.registerTask "test:mid", [
+    "test:common"
+    "karma:midway"
+  ]
+
   grunt.registerTask "test:e2e", [
-    "clean:server"
-    "concurrent:test"
-    "autoprefixer"
-    "connect:test"
+    #"clean:server"
+    #"concurrent:test"
+    #"autoprefixer"
+    #"connect:test"
+    "test:common"
     "karma:e2e"
   ]
 

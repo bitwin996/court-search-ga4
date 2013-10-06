@@ -29,7 +29,11 @@
     "time-grunt": "~0.1.0",
     "grunt-contrib-jade": "~0.8.0",
     "grunt-contrib-stylus": "~0.8.0",
-    "grunt-karma": "~0.6.2"
+    "grunt-karma": "~0.6.2",
+    "mocha": "~1.13.0",
+    "karma-mocha": "~0.1.0",
+    "karma-chai": "0.0.1",
+    "chai": "~1.8.0"
   },
   "engines": {
     "node": ">=0.8.0"
