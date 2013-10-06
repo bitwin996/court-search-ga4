@@ -1,5 +1,14 @@
 p This is the views/reservations/index view.
 
+p Seach:
+  input(ng-model="query")
+
+p Order:
+  select(ng-model="orderPrep")
+    option(value="date") Date
+    option(value="place") Place
+
 ul(ng-controller="ReservationsCtrl")
-  li(ng-repeat="reservation in reservations")
-    {{reservation.date | date:'MM/dd/yyyy'}}
+  li(ng-repeat="reservation in reservations | filter:query | orderBy:orderPrep")
+    {{reservation.date | date:'MM/dd/yyyy'}}<br />
+    {{reservation.place}}

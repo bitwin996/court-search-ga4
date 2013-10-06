@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: ReservationsCtrl', () ->
+describe 'Controller: ReservationsCtrl', ->
 
   # load the controller's module
   beforeEach module 'courtSearchApp'
@@ -15,9 +15,9 @@ describe 'Controller: ReservationsCtrl', () ->
       $scope: scope
     }
 
-  it 'should attach a list of awesomeThings to the scope', () ->
-    expect(scope.awesomeThings.length).toBe 3
-
   it 'should attach a list of Reservation to the scope', ->
+    expect(scope.reservations.length).toBe 3
+
     date = new Date 2013, 1, 1
     expect(scope.reservations[0].date.getTime()).toBe date.getTime()
+
