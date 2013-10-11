@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('courtSearchApp', [])
+angular.module('courtSearchApp', ['ngResource'])
   .config ($routeProvider) ->
     $routeProvider
       .when '/schedules',
