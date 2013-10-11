@@ -3,6 +3,12 @@
 angular.module('courtSearchApp', [])
   .config ($routeProvider) ->
     $routeProvider
+      .when '/schedules',
+        templateUrl: 'views/schedules/index.html'
+        controller: 'SchedulesCtrl'
+      .when '/schedules/:scheduleId',
+        templateUrl: 'views/schedules/show.html'
+        controller: 'SchedulesCtrl'
       .when '/',
         templateUrl: 'views/main.html'
         controller: 'MainCtrl'
