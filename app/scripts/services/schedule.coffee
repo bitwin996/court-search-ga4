@@ -2,10 +2,15 @@
 
 angular.module('courtSearchApp')
   .factory 'Schedule', ['$resource', ($resource) ->
-    $resource 'schedules/:scheduleId', {scheduleId: null},
+    $resource 'schedules/:id', {},
       query:
         method: 'GET'
         params:
-          scheduleId: '@scheduleId'
+          id: ''
         isArray: true
+
+      get:
+        method: 'GET'
+        params:
+          id: '@id'
   ]

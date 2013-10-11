@@ -20,19 +20,34 @@ describe 'Service: Schedule', ->
   it 'should do something', ->
     expect(!!Schedule).toBe true
 
-  scheduleData = [
+
+  scheduleList = [
       date: new Date
     ,
       date: new Date
   ]
 
-  it 'should query Schedule data', ->
-    httpBackend.expectGET('schedules').respond scheduleData
+  scheduleData =
+    date: new Date
+
+  it 'should query Schedule list', ->
+    httpBackend.expectGET('schedules').respond scheduleList
 
     schedules = Schedule.query()
     expect(schedules).toEqualData []
 
-    httpBackend.expectGET('schedules').respond scheduleData
+    httpBackend.expectGET('schedules').respond scheduleList
     schedules = Schedule.query()
     httpBackend.flush()
-    expect(schedules).toEqualData scheduleData
+    expect(schedules).toEqualData scheduleList
+
+  it 'should get a Schedule data', ->
+    httpBackend.expectGET('schedules/1').respond scheduleData
+
+    schedules = Schedule.get id:1
+    expect(schedules).toEqualData {}
+
+    httpBackend.expectGET('schedules/1').respond scheduleData
+    schedule = Schedule.get id:1
+    httpBackend.flush()
+    expect(schedule).toEqualData scheduleData
