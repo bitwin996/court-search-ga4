@@ -3,14 +3,16 @@
 describe 'Service: Schedule', ->
 
   # load the service's module
-  beforeEach module 'courtSearchApp'
+  beforeEach module 'courtSearchApp', 'mockedJSON'
 
   # instantiate service
   Schedule = {}
   httpBackend = {}
-  beforeEach inject (_Schedule_, _$httpBackend_) ->
+  mockedSchedules = null
+  beforeEach inject (_Schedule_, _$httpBackend_, _mockedSchedules_) ->
     Schedule = _Schedule_
     httpBackend = _$httpBackend_
+    mockedSchedules = _mockedSchedules_
 
   it 'should do something', ->
     expect(!!Schedule).toBe true

@@ -17,7 +17,7 @@ module.exports = function(config) {
       'app/scripts/*.coffee',
       'app/scripts/**/*.coffee',
       'test/lib/*.coffee',
-      //'test/mock/**/*.coffee',
+      'test/mock/*.coffee',
       'test/spec/**/*.coffee'
     ],
 
