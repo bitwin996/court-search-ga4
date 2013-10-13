@@ -7,7 +7,7 @@ angular.module('courtSearchApp')
         method: 'GET'
         params:
           id: ''
-        isArray: true
+          #isArray: true
 
       get:
         method: 'GET'
