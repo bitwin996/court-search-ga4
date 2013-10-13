@@ -2,11 +2,6 @@
 
 describe 'Service: Schedule', ->
 
-  beforeEach ->
-    @addMatchers
-      toEqualData: (expected) ->
-        angular.equals @actual, expected
-
   # load the service's module
   beforeEach module 'courtSearchApp'
 

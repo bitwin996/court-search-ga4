@@ -16,6 +16,7 @@ module.exports = function(config) {
       'app/bower_components/angular-resource/angular-resource.js',
       'app/scripts/*.coffee',
       'app/scripts/**/*.coffee',
+      'test/lib/*.coffee',
       //'test/mock/**/*.coffee',
       'test/spec/**/*.coffee'
     ],

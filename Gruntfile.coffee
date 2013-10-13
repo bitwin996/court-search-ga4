@@ -115,7 +115,7 @@ module.exports = (grunt) ->
     open:
       server:
         url: "http://localhost:<%= connect.options.port %>"
-        #app: "/usr/share/iron/iron"
+        app: "/usr/share/iron/iron"
 
     clean:
       dist:

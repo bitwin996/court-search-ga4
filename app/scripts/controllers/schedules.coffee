@@ -1,9 +1,8 @@
 'use strict'
 
 angular.module('courtSearchApp')
-  .controller 'SchedulesCtrl', ($scope) ->
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
+  .controller 'SchedulesCtrl', ['$scope', 'Schedule', ($scope, Schedule) ->
+
+    $scope.schedules = Schedule.query()
+
+  ]
