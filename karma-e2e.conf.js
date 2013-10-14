@@ -11,7 +11,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/e2e/**/*.coffee'
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      'test/e2e/**/*.coffee',
+      'test/mock/*.coffee'
     ],
 
     // list of files / patterns to exclude
